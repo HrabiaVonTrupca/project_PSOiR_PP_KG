@@ -1,10 +1,22 @@
-import pika
+import json
 
-connection = pika.BlockingConnection(pika.ConnectionParameters('rabbitmq.test-rabbitmq'))
+import pika
+import random
+
+QUEUE_NAME='primes_requests'
+RANDOM_BITS=200
+
+random_number=random.getrandbits(RANDOM_BITS)
+print(f'Number: {random_number}')
+
+connection = pika.BlockingConnection(pika.ConnectionParameters('rabbitmq.posir'))
 channel = connection.channel()
-channel.queue_declare(queue='hello')
+channel.queue_declare(queue=QUEUE_NAME, durable=True)
 channel.basic_publish(exchange='',
-                      routing_key='hello',
-                      body='Hello World!')
-print(" [x] Sent 'Hello World!'")
+                      routing_key=QUEUE_NAME,
+                      body=json.dumps({'number': random_number}),
+                      properties=pika.BasicProperties(
+                          delivery_mode=2,  # make message persistent
+                      ))
+print("Sent")
 connection.close()
