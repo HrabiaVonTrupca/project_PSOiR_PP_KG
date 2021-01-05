@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  namespace: test-rabbitmq
+  namespace: posir
   name: rabbitmq
   labels:
     app: rabbitmq

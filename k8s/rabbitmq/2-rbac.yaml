@@ -3,13 +3,13 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: rabbitmq
-  namespace: test-rabbitmq
+  namespace: posir
 ---
 kind: Role
 apiVersion: rbac.authorization.k8s.io/v1beta1
 metadata:
   name: rabbitmq-peer-discovery-rbac
-  namespace: test-rabbitmq
+  namespace: posir
 rules:
   - apiGroups: [""]
     resources: ["endpoints"]
@@ -22,7 +22,7 @@ kind: RoleBinding
 apiVersion: rbac.authorization.k8s.io/v1beta1
 metadata:
   name: rabbitmq-peer-discovery-rbac
-  namespace: test-rabbitmq
+  namespace: posir
 subjects:
   - kind: ServiceAccount
     name: rabbitmq
