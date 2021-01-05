@@ -9,6 +9,7 @@ from sympy.ntheory import factorint
 QUEUE_HOST = os.environ['QUEUE_HOST']
 REQUEST_QUEUE_NAME = os.environ['REQUEST_QUEUE_NAME']
 RESULT_QUEUE_NAME = os.environ['RESULT_QUEUE_NAME']
+HOSTNAME = os.getenv('HOSTNAME', 'unknown')
 
 
 def produce_result(channel, message):
@@ -31,7 +32,7 @@ def callback(ch, method, properties, body):
     print("Received %r" % body)
     number = json.loads(body)['number']
     time, primes = factorize(number)
-    return_message = json.dumps({'number': number, 'time': time, 'primes': primes})
+    return_message = json.dumps({'number': number, 'time': time, 'worker': HOSTNAME, 'primes': primes})
     produce_result(ch, return_message)
     ch.basic_ack(delivery_tag=method.delivery_tag)
 

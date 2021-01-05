@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: factor-config
+  namespace: posir
+data:
+  QUEUE_HOST: rabbitmq.posir
+  REQUEST_QUEUE_NAME: primes_requests
+  RESULT_QUEUE_NAME: primes_results
