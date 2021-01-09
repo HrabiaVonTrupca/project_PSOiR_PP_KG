@@ -52,6 +52,9 @@ example request
 GET /factorize?number=100
 
 ```
+Build app using :
+    mvnw clean package
+
 docker build -t localhost:5000/api -f docker/api/Dockerfile .
 docker push localhost:5000/api
 kubectl apply -f k8s/api
