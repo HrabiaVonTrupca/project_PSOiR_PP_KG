@@ -1,8 +1,6 @@
-FROM python:3.8.6-slim
-
-COPY apps/factor/requirements.txt /requirements.txt
-RUN pip install -r requirements.txt
-
-COPY apps/factor/main.py /main.py
-
-CMD ["python", "/main.py"]
+FROM adoptopenjdk/openjdk11:jdk-11.0.2.9-slim
+WORKDIR /opt
+ENV PORT 8080
+EXPOSE 8080
+COPY apps/api/target/*.jar /opt/app.jar
+ENTRYPOINT exec java $JAVA_OPTS -jar app.jar
