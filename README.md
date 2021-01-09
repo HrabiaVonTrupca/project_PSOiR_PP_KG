@@ -46,3 +46,13 @@ docker build -t localhost:5000/factor -f docker/factor/Dockerfile .
 docker push localhost:5000/factor
 kubectl run -it --restart=Never --image=localhost:5000/factor --rm factor
 ```
+
+### api
+example request 
+GET /factorize?number=100
+
+```
+docker build -t localhost:5000/api -f docker/api/Dockerfile .
+docker push localhost:5000/api
+kubectl apply -f k8s/api
+```
