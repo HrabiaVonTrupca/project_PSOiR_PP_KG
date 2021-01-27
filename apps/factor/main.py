@@ -32,7 +32,7 @@ def callback(ch, method, properties, body):
     print("Received %r" % body)
     number = json.loads(body)['number']
     time, primes = factorize(number)
-    return_message = json.dumps({'number': number, 'time': time, 'worker': HOSTNAME, 'primes': primes})
+    return_message = json.dumps({'number': str(number), 'time': time, 'worker': HOSTNAME, 'primes': list(map(str,primes))})
     produce_result(ch, return_message)
     ch.basic_ack(delivery_tag=method.delivery_tag)
 
