@@ -16,9 +16,10 @@ public class FactorClient implements AutoCloseable{
     private Connection connection;
     private Channel channel;
     private String requestQueueName = "primes_requests";
-
+    private String replyQueueName = "primes_results";
 
     public FactorClient() throws IOException, TimeoutException {
+
         ConnectionFactory factory = new ConnectionFactory();
         factory.setHost("rabbitmq.posir.svc.cluster.local");
         factory.setPort(5672);
@@ -29,9 +30,8 @@ public class FactorClient implements AutoCloseable{
 
     public String call(String factorizedNumber) throws IOException, InterruptedException {
 //        final String corrId = UUID.randomUUID().toString();
-
-        String replyQueueName = "primes_results";
 //        String replyQueueName = channel.queueDeclare().getQueue();
+
         AMQP.BasicProperties props = new AMQP.BasicProperties
                 .Builder()
 //                .correlationId(corrId)
@@ -54,7 +54,6 @@ public class FactorClient implements AutoCloseable{
             response.offer(new String(delivery.getBody(),"UTF-8"));
         }, consumerTag -> {
         });
-
 
         String result = response.take();
         channel.basicCancel(ctag);
