@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+    <div>
+        <label for="input">Number:</label></br>
+        <input type="text" id="input" name="input" value=""/></br>
+<!--            <input type="submit" value="Submit">-->
+        <button onclick="factorize()">Submit</button>
+    </div>
+
+    <div>
+        <h3>Number: <span id="number"></span></h3>
+        <h3>Time: <span id="time"></span></h3>
+        <h3>Worker: <span id="worker"></span></h3>
+        <h3>Primes: <span id="primes"></span></h3>
+        <h3 id="error" style="color: orangered"></h3>
+    </div>
+
+<script>
+    function factorize() {
+        (async () => {
+            const number = document.getElementById('input').value;
+
+            const rawResponse = await fetch('http://localhost:8080/factorize', {
+                method: 'POST',
+                mode: 'cors',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ number: number})
+            })
+            const content = await rawResponse.json();
+            if (!content.error) {
+                document.getElementById('number').innerHTML = content.number.toString();
+                document.getElementById('time').innerHTML = content.time.toString();
+                document.getElementById('worker').innerHTML = content.worker.toString();
+                document.getElementById('primes').innerHTML = content.primes.toString();
+                document.getElementById('error').innerHTML ="";
+                console.log(content);
+            }
+            else {
+                document.getElementById('error').innerHTML = content.error;
+            }
+        })();
+    }
+</script>
+</body>
+</html>
