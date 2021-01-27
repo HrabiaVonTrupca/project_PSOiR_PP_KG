@@ -59,3 +59,10 @@ docker build -t localhost:5000/api -f docker/api/Dockerfile .
 docker push localhost:5000/api
 kubectl apply -f k8s/api
 ```
+
+### web-frontend
+```
+docker build -t localhost:5000/web-frontend -f docker/web-frontend/Dockerfile . 
+docker push localhost:5000/web-frontend
+kubectl apply -f k8s/web-frontend
+```
